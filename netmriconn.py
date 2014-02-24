@@ -5,7 +5,7 @@ import requests
 import pprint
 import ConfigParser
 
-class NetMRIConn:
+class netmriconn:
     def __init__(self, conffile):
         config = ConfigParser.ConfigParser()
         try:

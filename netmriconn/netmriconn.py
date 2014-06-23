@@ -31,6 +31,15 @@ class netmriconn:
         r = requests.get('https://' + self.address + self.path + self.version + '/devices/index.json?' + keyfield + '=' + key, auth=(self.username, self.password), verify=self.verify)
         return r.json()
 
+    def get_device_physicals(self, keyfield, key):
+        r = requests.get('https://' + self.address + self.path + self.version + '/device_physicals/search.json?' + keyfield + '=' + key, auth=(self.username, self.password), verify=self.verify)
+        return r.json()
+
+    def get_if_addrs(self, keyfield, key):
+
+        r = requests.get('https://' + self.address + self.path + self.version + '/if_addrs/index.json?' + keyfield + '=' + key, auth=(self.username, self.password), verify=self.verify)
+        return r.json()
+
     def get_interface(self, keyfield, key):
 
         r = requests.get('https://' + self.address + self.path + self.version + '/interfaces/index.json?' + keyfield + '=' + key, auth=(self.username, self.password), verify=self.verify)
@@ -38,18 +47,23 @@ class netmriconn:
 
     def get_endhost_lastseen(self, keyfield, key):
 
-        # gets the most recent time seen from netmri for a given mac address
-        # returns none if mac address is not seen
-
-        r = requests.get('https://' + self.address + self.path + self.version + '/end_host_mac_addresses/index.json?' + keyfield + '=' + key + '&sort=EndHostMACAddressTimestamp', auth=(self.username, self.password), verify=self.verify)
-        r = r.json()
-        if r['current'] != 0:
-            return r['end_host_mac_addresses'].pop()
-        else:
-            return None
+        r = requests.get('https://' + self.address + self.path + self.version + '/end_host_mac_addresses/index.json?' + keyfield + '=' + key + '&sort=EndHostMACAddressTimestamp&dir=asc', auth=(self.username, self.password), verify=self.verify)
+        return r.json()
 
     def get_neighbordevice(self, keyfield, key):
 
         r = requests.get('https://' + self.address + self.path + self.version + '/neighbors/index.json?' + keyfield + '=' + key, auth=(self.username, self.password), verify=self.verify)
+        return r.json()
+
+    def get_vlans(self, keyfield, key):
+
+        # needs to use the search method rather than index, as index does not permit constraining results by vlanindex (actual vlan id numeric tag)
+
+        r = requests.get('https://' + self.address + self.path + self.version + '/vlans/search.json?' + keyfield + '=' + key, auth=(self.username, self.password), verify=self.verify)
+        return r.json()
+
+    def get_vlanmembers(self, keyfield, key):
+
+        r = requests.get('https://' + self.address + self.path + self.version + '/vlan_members/index.json?' + keyfield + '=' + key, auth=(self.username, self.password), verify=self.verify)
         return r.json()
 

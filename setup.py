@@ -19,5 +19,13 @@ setup(
         # -*- Extra requirements: -*-
         ],
     entry_points= {
-        },
-    )
+    },
+    setup_requires = [
+        'setuptools_git>=1.0',
+    ],
+    test_suite = 'nose.collector',
+    tests_require = [
+        'flake8>=2.1.0',
+        'nose>=1.3.0',
+    ],
+)
